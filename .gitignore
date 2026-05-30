@@ -1,1 +1,28 @@
 terraform/provider.tf
+
+# terraform working directory
+.terraform/
+
+# terraform state
+*.tfstate
+*.tfstate.*
+
+# terraform plan files
+*.tfplan
+
+# terraform var secret files 
+*.tfvars
+*.tfvars.json
+
+terraform/provider.tf
+
+# env
+.env
+.env.*
+
+# terraform lock file
+.terraform.lock.hcl
+
+# crash logs
+crash.log
+crash.*.log
