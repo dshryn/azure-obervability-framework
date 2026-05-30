@@ -9,6 +9,8 @@ from azure.storage.blob import BlobServiceClient
 
 def main(event: func.EventGridEvent):
 
+    
+
     data = event.get_json()
 
     service = data.get("service", "unknown-service")
@@ -22,6 +24,14 @@ def main(event: func.EventGridEvent):
         f"latency_ms={latency} "
         f"region={region}"
     )
+    logging.error(log_message)
+
+    logging.info(
+        f"CUSTOM_TELEMETRY "
+        f"service={service} "
+        f"severity={severity} "
+        f"latency_ms={latency}"
+    )   
 
     if severity == "ERROR":
         logging.error(log_message)
