@@ -1,6 +1,10 @@
+import json
 import logging
+import os
+from datetime import datetime
 
 import azure.functions as func
+from azure.storage.blob import BlobServiceClient
 
 
 def main(event: func.EventGridEvent):
@@ -27,3 +31,42 @@ def main(event: func.EventGridEvent):
 
     else:
         logging.info(log_message)
+
+    try:
+
+        connection_string = os.getenv(
+            "ARCHIVE_STORAGE_CONNECTION_STRING"
+        )
+
+        container_name = os.getenv(
+            "ARCHIVE_CONTAINER_NAME"
+        )
+
+        blob_service_client = BlobServiceClient.from_connection_string(
+            connection_string
+        )
+
+        container_client = blob_service_client.get_container_client(
+            container_name
+        )
+
+        blob_name = (
+            f"{service}/"
+            f"{datetime.utcnow().strftime('%Y%m%d-%H%M%S-%f')}.json"
+        )
+
+        container_client.upload_blob(
+            name=blob_name,
+            data=json.dumps(data),
+            overwrite=False
+        )
+
+        logging.info(
+            f"Archived telemetry to blob: {blob_name}"
+        )
+
+    except Exception as e:
+
+        logging.error(
+            f"Blob archival failed: {str(e)}"
+        )

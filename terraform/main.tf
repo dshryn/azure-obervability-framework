@@ -72,9 +72,12 @@ resource "azurerm_linux_function_app" "main" {
   }
 
   app_settings = {
-    APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.main.instrumentation_key
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
-  }
+  APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.main.instrumentation_key
+  APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+
+  ARCHIVE_STORAGE_CONNECTION_STRING = azurerm_storage_account.archive_storage.primary_connection_string
+  ARCHIVE_CONTAINER_NAME            = azurerm_storage_container.telemetry_archive.name
+}
 }
 
 resource "azurerm_storage_account" "archive_storage" {
