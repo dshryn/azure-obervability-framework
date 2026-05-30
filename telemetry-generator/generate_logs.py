@@ -36,9 +36,9 @@ severities = [
 
 events = []
 
-for _ in range(150):
+for _ in range(50):
     service = random.choice(services)
-    severity = random.choice(severities)
+    severity = "ERROR"
 
     event = EventGridEvent(
         subject=f"/services/{service}",
@@ -47,7 +47,7 @@ for _ in range(150):
         data={
             "service": service,
             "severity": severity,
-            "latency_ms": random.randint(50, 3000),
+            "latency_ms": 3500,
             "timestamp": datetime.utcnow().isoformat(),
             "region": "central-india"
         }
