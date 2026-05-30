@@ -41,3 +41,38 @@ resource "azurerm_storage_account" "function_storage" {
 
   min_tls_version = "TLS1_2"
 }
+
+resource "azurerm_service_plan" "function_plan" {
+  name                = "cloudobs-functions-plan"
+  location            = "Central India"
+  resource_group_name = azurerm_resource_group.main.name
+
+  os_type  = "Linux"
+  sku_name = "Y1"
+}
+
+resource "azurerm_linux_function_app" "main" {
+  name                = "cloudobs-functions-dev"
+  location            = "Central India"
+  resource_group_name = azurerm_resource_group.main.name
+
+  https_only = true
+
+  service_plan_id = azurerm_service_plan.function_plan.id
+
+  storage_account_name       = azurerm_storage_account.function_storage.name
+  storage_account_access_key = azurerm_storage_account.function_storage.primary_access_key
+
+  functions_extension_version = "~4"
+
+  site_config {
+    application_stack {
+      python_version = "3.11"
+    }
+  }
+
+  app_settings = {
+    APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.main.instrumentation_key
+    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+  }
+}
