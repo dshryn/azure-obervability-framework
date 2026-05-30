@@ -2,6 +2,7 @@ terraform/provider.tf
 
 # terraform working directory
 .terraform/
+terraform/.env
 
 # terraform state
 *.tfstate
@@ -26,3 +27,9 @@ terraform/provider.tf
 # crash logs
 crash.log
 crash.*.log
+
+
+
+
+# telemetry generator env
+telemetry-generator/.env

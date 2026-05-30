@@ -1,0 +1,3 @@
+azure-eventgrid
+azure-identity
+python-dotenv
