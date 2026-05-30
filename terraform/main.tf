@@ -76,3 +76,22 @@ resource "azurerm_linux_function_app" "main" {
     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
   }
 }
+
+resource "azurerm_storage_account" "archive_storage" {
+  name                     = "cloudobsarchivedevsa"
+  resource_group_name      = azurerm_resource_group.main.name
+  location                 = "Central India"
+
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  min_tls_version = "TLS1_2"
+
+  allow_nested_items_to_be_public = false
+}
+
+resource "azurerm_storage_container" "telemetry_archive" {
+  name                  = "telemetry-archive"
+  storage_account_id    = azurerm_storage_account.archive_storage.id
+  container_access_type = "private"
+}

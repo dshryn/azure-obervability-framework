@@ -5,11 +5,11 @@ from datetime import datetime
 from azure.eventgrid import EventGridPublisherClient, EventGridEvent
 from azure.core.credentials import AzureKeyCredential
 
+from dotenv import load_dotenv
+load_dotenv()
+
 TOPIC_ENDPOINT = os.getenv("TOPIC_ENDPOINT")
 TOPIC_KEY = os.getenv("TOPIC_KEY")
-
-assert TOPIC_ENDPOINT is not None
-assert TOPIC_KEY is not None
 
 
 client = EventGridPublisherClient(
@@ -26,13 +26,17 @@ services = [
 
 severities = [
     "INFO",
+    "INFO",
+    "INFO",
+    "INFO",
+    "WARNING",
     "WARNING",
     "ERROR"
 ]
 
 events = []
 
-for _ in range(5):
+for _ in range(150):
     service = random.choice(services)
     severity = random.choice(severities)
 
