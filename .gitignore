@@ -28,8 +28,8 @@ terraform/provider.tf
 crash.log
 crash.*.log
 
-
-
-
 # telemetry generator env
 telemetry-generator/.env
+
+# blob
+__blobstorage__/
